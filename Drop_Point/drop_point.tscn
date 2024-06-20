@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cageq52k0lea8"]
+
+[ext_resource type="Script" path="res://Drop_Point/drop_point.gd" id="1_v2j0m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_axpw4"]
+size = Vector2(6, 6)
+
+[sub_resource type="Gradient" id="Gradient_m0hdx"]
+colors = PackedColorArray(0.872725, 0.288319, 1, 1, 0.87451, 0.290196, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kr572"]
+gradient = SubResource("Gradient_m0hdx")
+
+[node name="DropPoint" type="Area2D"]
+script = ExtResource("1_v2j0m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_axpw4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.09375, 0.09375)
+texture = SubResource("GradientTexture2D_kr572")
