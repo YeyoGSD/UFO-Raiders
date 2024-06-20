@@ -35,53 +35,48 @@ func set_ufo_part(ufo_part : Area2D) -> void:
 	self.ufo_part = ufo_part
 	show()
 
-func drop_ufo_part():
+func drop_ufo_part() -> void:
 	self.ufo_part = null
 	hide()
 
 func get_point_count(distance: float)->int:
-	return int(ceil(distance / constrain))
+	return ceili(distance / constrain)
 
-func resize_arrays():
+func resize_arrays() -> void:
 	pos.resize(point_count)
 	pos_prev.resize(point_count)
 	
-func _process(delta)->void:
+func _process(delta:float)->void:
 	update_points(delta)
 	update_constrain()
 	set_start(player1.global_position)
 	set_last(player2.global_position)
 	if ufo_part != null:
 		ufo_part.global_position = pos[pos.size()/2]
-	
-	#update_constrain()	#Repeat to get tighter rope
-	#update_constrain()
-	
-	# Send positions to Line2D for drawing
 	line_2d.points = pos
 	
 func init_position()->void:
-	for i in range(point_count):
+	for i:int in range(point_count):
 		pos[i] = position + Vector2(constrain *i, 0)
 		pos_prev[i] = position + Vector2(constrain *i, 0)
 	position = Vector2.ZERO
 
-func update_points(delta)->void:
-	for i in range (point_count):
+func update_points(delta:float)->void:
+	for i:int in range (point_count):
 		# not first and last || first if not pinned || last if not pinned
 		if (i!=0 && i!=point_count-1) || (i==0 && !pin_start) || (i==point_count-1 && !pin_end):
-			var velocity = (pos[i] -pos_prev[i]) * dampening
+			var velocity:Vector2 = (pos[i] -pos_prev[i]) * dampening
 			pos_prev[i] = pos[i]
 			pos[i] += velocity + (gravity * delta)
 
 func update_constrain()->void:
-	for i in range(point_count):
+	for i:int in range(point_count):
 		if i == point_count-1:
 			return
-		var distance = pos[i].distance_to(pos[i+1])
-		var difference = constrain - distance
-		var percent = difference / distance
-		var vec2 = pos[i+1] - pos[i]
+		var distance:float = pos[i].distance_to(pos[i+1])
+		var difference:float = constrain - distance
+		var percent:float = difference / distance
+		var vec2:Vector2 = pos[i+1] - pos[i]
 		
 		# if first point
 		if i == 0:
