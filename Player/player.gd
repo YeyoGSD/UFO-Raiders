@@ -22,6 +22,6 @@ func _physics_process(delta:float) -> void:
 	global_position.x = clamp(global_position.x, sprite_size.x/2, Global.viewport_size.x - sprite_size.x/2)
 	global_position.y = clamp(global_position.y, sprite_size.y/2, Global.viewport_size.y - sprite_size.y/2)
 
-func _input(event:InputEvent) -> void:
+func _unhandled_key_input(event:InputEvent) -> void:
 	if event.is_action_pressed("shoot_{n}".format({"n":id})):
 		shot.emit(bullet_spawn.global_position)
