@@ -10,7 +10,7 @@ signal shot(bullet_spawn_position:Vector2)
 @onready var sprite_size:Vector2 = sprite.texture.get_size() * sprite.get_scale()
 
 const SPEED:int = 200
-var direction:Vector2 = Vector2.ZERO
+var direction:Vector2
 
 func _physics_process(delta:float) -> void:
 	direction = Input.get_vector(

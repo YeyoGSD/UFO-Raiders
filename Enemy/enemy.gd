@@ -1,10 +1,15 @@
 class_name Enemy
 extends Area2D
 
-const VELOCITY:Vector2 = Vector2(0, 100)
+const SPEED:int = 100
+
+var direction:Vector2 = Vector2.ZERO
+var target:Player
 
 func _physics_process(delta:float) -> void:
-	global_position += VELOCITY * delta
+	if target != null:
+		direction = position.direction_to(target.position)
+	global_position += SPEED * delta * direction
 
 func _on_area_entered(area:Area2D) -> void:
 	if area != DropPoint:
