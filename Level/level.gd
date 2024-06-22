@@ -30,7 +30,12 @@ func _on_player_shot(bullet_spawn_position:Vector2) -> void:
 
 func _on_ufo_part_entered_drop_point() -> void:
 	rope.drop_ufo_part()
+	player1.is_tied = false
+	player2.is_tied = false
 
 func _on_ufo_part_collected() -> void:
-	if rope.ufo_part == null:
+	var players_distance:float = player1.global_position.distance_to(player2.global_position)
+	if rope.ufo_part == null and players_distance < 400: #400 es el valor de max_separation para la pantalla dividida
 		rope.set_ufo_part(ufo_part)
+		player1.is_tied = true
+		player2.is_tied = true

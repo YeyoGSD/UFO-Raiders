@@ -15,13 +15,15 @@ point_count = 2
 [node name="Level" type="Node2D"]
 script = ExtResource("1_5ym7l")
 
-[node name="Player1" parent="." instance=ExtResource("1_u6hc1")]
+[node name="Player1" parent="." node_paths=PackedStringArray("partner") instance=ExtResource("1_u6hc1")]
 position = Vector2(159, 235)
 id = 1
+partner = NodePath("../Player2")
 
-[node name="Player2" parent="." instance=ExtResource("1_u6hc1")]
+[node name="Player2" parent="." node_paths=PackedStringArray("partner") instance=ExtResource("1_u6hc1")]
 position = Vector2(341, 237)
 id = 2
+partner = NodePath("../Player1")
 
 [node name="EnemySpawner" type="Path2D" parent="."]
 curve = SubResource("Curve2D_47l0p")
