@@ -1,28 +1,30 @@
-extends Node
+extends Control
 
 @export var max_separation:float = 20.0
 @export var split_line_thickness:float = 3.0
-@export var split_line_color:Color = Color.BLACK # (Color, RGBA)
+@export var split_line_color:Color = Color.BLACK
 @export var adaptive_split_line_thickness:bool = true
 
-@onready var main_viewport:SubViewport = $SubViewport1
-@onready var secondary_viewport:SubViewport = $SubViewport2
-@onready var main:Node2D = $SubViewport1/Main
+@onready var main_viewport:SubViewport = $Container1/Viewport1
+@onready var secondary_viewport:SubViewport = $Container2/Viewport2
+@onready var main:Node2D = $Container1/Viewport1/Level
 @onready var player1:Area2D = main.get_node("Player1")
 @onready var player2:Area2D = main.get_node("Player2")
 @onready var view:TextureRect = $View
-@onready var camera1:Camera2D = $SubViewport1/Camera1
-@onready var camera2:Camera2D = $SubViewport2/Camera2
+@onready var camera1:Camera2D = $Container1/Viewport1/Camera1
+@onready var camera2:Camera2D = $Container2/Viewport2/Camera2
 
+var view_shader : ShaderMaterial
 var separation_distance:float = 0
 
 func _ready() -> void:
 	secondary_viewport.world_2d = main_viewport.world_2d
+	view_shader = view.get_material()
 	_on_size_changed()
 	update_splitscreen()
 	get_viewport().connect("size_changed", Callable(self, "_on_size_changed"))
-	view.material.set_shader_parameter("viewport1", main_viewport.get_texture())
-	view.material.set_shader_parameter("viewport2", secondary_viewport.get_texture())
+	view_shader.set_shader_parameter("viewport1", main_viewport.get_texture())
+	view_shader.set_shader_parameter("viewport2", secondary_viewport.get_texture())
 
 func _process(_delta:float) -> void:
 	separation_distance = get_distance_between_players()
@@ -49,14 +51,12 @@ func update_splitscreen() -> void:
 	else:
 		thickness = split_line_thickness
 
-	view.material.set_shader_parameter("split_active", get_split_state())
-	view.material.set_shader_parameter("player1_position", player1_position)
-	view.material.set_shader_parameter("player2_position", player2_position)
-	view.material.set_shader_parameter("split_line_thickness", thickness)
-	view.material.set_shader_parameter("split_line_color", split_line_color)
+	view_shader.set_shader_parameter("split_active", get_split_state())
+	view_shader.set_shader_parameter("player1_position", player1_position)
+	view_shader.set_shader_parameter("player2_position", player2_position)
+	view_shader.set_shader_parameter("split_line_thickness", thickness)
+	view_shader.set_shader_parameter("split_line_color", split_line_color)
 
-# Split screen is active if players are too far apart from each other.
-# Only the horizontal components (x/z in 3D, x/y in 2D) are used for distance computation
 func get_split_state() -> bool:
 	return separation_distance > max_separation
 
@@ -66,4 +66,4 @@ func get_distance_between_players() -> float:
 func _on_size_changed() -> void:
 	main_viewport.size = Global.viewport_size
 	secondary_viewport.size = Global.viewport_size
-	view.material.set_shader_parameter("viewport_size", Global.viewport_size)
+	view_shader.set_shader_parameter("viewport_size", Global.viewport_size)

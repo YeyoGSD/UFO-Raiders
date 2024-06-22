@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="GameJam"
-run/main_scene="res://Camera_Controller/camera_controller.tscn"
+run/main_scene="res://Main/main.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://Main/global.gd"
+Global="*res://Level/global.gd"
 
 [debug]
 

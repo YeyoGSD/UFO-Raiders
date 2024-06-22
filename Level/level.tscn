@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://b3srilwbdd7el"]
+
+[ext_resource type="Script" path="res://Level/level.gd" id="1_5ym7l"]
+[ext_resource type="PackedScene" uid="uid://yeweddorpr2l" path="res://Player/player.tscn" id="1_u6hc1"]
+[ext_resource type="PackedScene" uid="uid://doacohcsamvk1" path="res://Rope/rope.tscn" id="3_yax8e"]
+[ext_resource type="PackedScene" uid="uid://bm0ntlv4hf105" path="res://UFO_Part/ufo_part.tscn" id="4_3yvjf"]
+[ext_resource type="PackedScene" uid="uid://cageq52k0lea8" path="res://Drop_Point/drop_point.tscn" id="5_7knir"]
+
+[sub_resource type="Curve2D" id="Curve2D_47l0p"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 34, -17, 0, 0, 0, 0, 469, -17)
+}
+point_count = 2
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_5ym7l")
+
+[node name="Player1" parent="." instance=ExtResource("1_u6hc1")]
+position = Vector2(159, 235)
+id = 1
+
+[node name="Player2" parent="." instance=ExtResource("1_u6hc1")]
+position = Vector2(341, 237)
+id = 2
+
+[node name="EnemySpawner" type="Path2D" parent="."]
+curve = SubResource("Curve2D_47l0p")
+
+[node name="SpawnPoint" type="PathFollow2D" parent="EnemySpawner"]
+position = Vector2(34, -17)
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="Rope" parent="." node_paths=PackedStringArray("player1", "player2") instance=ExtResource("3_yax8e")]
+position = Vector2(202, 236)
+dampening = 0.95
+player1 = NodePath("../Player1")
+player2 = NodePath("../Player2")
+
+[node name="UfoPart" parent="." instance=ExtResource("4_3yvjf")]
+
+[node name="DropPoint" parent="." instance=ExtResource("5_7knir")]
+position = Vector2(254, 43)
+
+[connection signal="shot" from="Player1" to="." method="_on_player_shot"]
+[connection signal="shot" from="Player2" to="." method="_on_player_shot"]
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
+[connection signal="collected" from="UfoPart" to="." method="_on_ufo_part_collected"]
+[connection signal="entered_drop_point" from="UfoPart" to="." method="_on_ufo_part_entered_drop_point"]
