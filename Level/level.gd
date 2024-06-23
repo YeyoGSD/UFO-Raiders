@@ -23,9 +23,10 @@ func get_closest_player(reference_position:Vector2) -> Player:
 	else:
 		return player2
 
-func _on_player_shot(bullet_spawn_position:Vector2) -> void:
+func _on_player_shot(bullet_spawn_position:Vector2, direction:Vector2) -> void:
 	var new_bullet:Bullet = bullet_scene.instantiate()
 	new_bullet.position = bullet_spawn_position
+	new_bullet.direction = direction
 	add_child(new_bullet)
 
 func _on_ufo_part_entered_drop_point() -> void:
