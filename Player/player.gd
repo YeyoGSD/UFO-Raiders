@@ -1,7 +1,7 @@
 class_name  Player
 extends Area2D
 
-signal shot(bullet_spawn_position:Vector2)
+signal shot(bullet_spawn_position:Vector2, player_rotation:float)
 
 @export var id:int
 @export var partner:Player
@@ -38,4 +38,4 @@ func circle_clamp(vector:Vector2, clamp_origin:Vector2, clamp_length:float) -> V
 
 func _unhandled_key_input(event:InputEvent) -> void:
 	if event.is_action_pressed("shoot_{n}".format({"n":id})):
-		shot.emit(bullet_spawn.global_position, Vector2.UP.rotated(rotation))
+		shot.emit(bullet_spawn.global_position, rotation)

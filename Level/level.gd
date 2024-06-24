@@ -8,9 +8,6 @@ extends Node2D
 @onready var player1:Player = $Player1
 @onready var player2:Player = $Player2
 
-func _process(delta):
-	print(spawn_point.global_position)
-
 func _on_enemy_spawn_timer_timeout() -> void:
 	var new_enemy:Enemy = enemy_scene.instantiate()
 	spawn_point.progress_ratio = randf()
@@ -26,10 +23,10 @@ func get_closest_player(reference_position:Vector2) -> Player:
 	else:
 		return player2
 
-func _on_player_shot(bullet_spawn_position:Vector2, direction:Vector2) -> void:
+func _on_player_shot(bullet_spawn_position:Vector2, player_rotation:float) -> void:
 	var new_bullet:Bullet = bullet_scene.instantiate()
 	new_bullet.position = bullet_spawn_position
-	new_bullet.direction = direction
+	new_bullet.rotation = player_rotation
 	add_child(new_bullet)
 
 func _on_ufo_part_entered_drop_point() -> void:

@@ -4,10 +4,11 @@ extends Area2D
 const SPEED:int = 250
 var direction:Vector2
 
+func _ready():
+	direction = Vector2.UP.rotated(rotation)
+
 func _physics_process(delta:float) -> void:
 	global_position += SPEED * direction * delta
-	if direction:
-		rotation = direction.angle() + PI/2
 
 func _on_area_entered(area:Area2D) -> void:
 	if area is Enemy:
