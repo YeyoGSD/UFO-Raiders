@@ -11,7 +11,6 @@ signal shot(bullet_spawn_position:Vector2, player_rotation:float)
 @onready var sprite_size:Vector2 = sprite.texture.get_size() * sprite.get_scale()
 
 const SPEED:int = 200
-const ROTATION_SPEED:int = 100
 
 var direction:Vector2
 var is_tied:bool = false
@@ -24,12 +23,11 @@ func _physics_process(delta:float) -> void:
 		"move_down_{n}".format({"n":id}))
 		
 	if direction:
-		rotation = lerp_angle(rotation, direction.angle() + PI/2, 0.5)
-	
-	global_position += direction * SPEED * delta
-	global_position = global_position.clamp(sprite_size/2, Global.LEVEL_LIMITS)
-	if is_tied:
-		global_position = circle_clamp(global_position, partner.global_position, 350) # 350 es menos que max_separation de la pantalla dividida pero lo suficiente para moverse
+		rotation = lerp_angle(rotation, direction.angle() + PI/2, 0.2)
+		global_position += direction * SPEED * delta
+		global_position = global_position.clamp(sprite_size/2, Global.LEVEL_LIMITS)
+		if is_tied:
+			global_position = circle_clamp(global_position, partner.global_position, 350) # 350 es menos que max_separation de la pantalla dividida pero lo suficiente para moverse
 
 
 func circle_clamp(vector:Vector2, clamp_origin:Vector2, clamp_length:float) -> Vector2:
