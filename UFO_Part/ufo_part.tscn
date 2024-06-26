@@ -13,7 +13,6 @@ width = 16
 height = 16
 
 [node name="UfoPart" type="Area2D"]
-position = Vector2(249, 219)
 script = ExtResource("1_ed0kl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

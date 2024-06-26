@@ -60,8 +60,6 @@ position = Vector2(1410, 867)
 [node name="DropPoint" parent="." instance=ExtResource("5_7knir")]
 position = Vector2(1439, 367)
 
-[connection signal="shot" from="Player1" to="." method="_on_player_shot"]
-[connection signal="shot" from="Player2" to="." method="_on_player_shot"]
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
 [connection signal="collected" from="UfoPart" to="." method="_on_ufo_part_collected"]
 [connection signal="entered_drop_point" from="UfoPart" to="." method="_on_ufo_part_entered_drop_point"]

@@ -1,8 +1,6 @@
 class_name  Player
 extends Area2D
 
-signal shot(bullet_spawn_position:Vector2, player_rotation:float)
-
 @export var id:int
 @export var partner:Player
 
@@ -29,11 +27,6 @@ func _physics_process(delta:float) -> void:
 		if is_tied:
 			global_position = circle_clamp(global_position, partner.global_position, 350) # 350 es menos que max_separation de la pantalla dividida pero lo suficiente para moverse
 
-
 func circle_clamp(vector:Vector2, clamp_origin:Vector2, clamp_length:float) -> Vector2:
 	var offset:Vector2 = vector - clamp_origin
 	return clamp_origin + offset.limit_length(clamp_length)
-
-func _unhandled_key_input(event:InputEvent) -> void:
-	if event.is_action_pressed("shoot_{n}".format({"n":id})):
-		shot.emit(bullet_spawn.global_position, rotation)

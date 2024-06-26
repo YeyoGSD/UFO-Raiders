@@ -1,6 +1,5 @@
 extends Node2D
 
-@onready var bullet_scene:PackedScene = preload("res://Bullet/bullet.tscn")
 @onready var enemy_scene:PackedScene = preload("res://Enemy/enemy.tscn")
 @onready var spawn_point:PathFollow2D = $EnemySpawner/SpawnPoint
 @onready var rope:Rope = $Rope
@@ -22,12 +21,6 @@ func get_closest_player(reference_position:Vector2) -> Player:
 		return player1
 	else:
 		return player2
-
-func _on_player_shot(bullet_spawn_position:Vector2, player_rotation:float) -> void:
-	var new_bullet:Bullet = bullet_scene.instantiate()
-	new_bullet.position = bullet_spawn_position
-	new_bullet.rotation = player_rotation
-	add_child(new_bullet)
 
 func _on_ufo_part_entered_drop_point() -> void:
 	rope.drop_ufo_part()
