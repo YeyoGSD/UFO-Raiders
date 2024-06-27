@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3srilwbdd7el"]
+[gd_scene load_steps=7 format=3 uid="uid://b3srilwbdd7el"]
 
 [ext_resource type="Script" path="res://Level/level.gd" id="1_5ym7l"]
 [ext_resource type="PackedScene" uid="uid://yeweddorpr2l" path="res://Player/player.tscn" id="1_u6hc1"]
@@ -6,12 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://bm0ntlv4hf105" path="res://UFO_Part/ufo_part.tscn" id="4_3yvjf"]
 [ext_resource type="PackedScene" uid="uid://cageq52k0lea8" path="res://Drop_Point/drop_point.tscn" id="5_7knir"]
 [ext_resource type="Texture2D" uid="uid://dk1k0qfbw1mal" path="res://icon.svg" id="6_pevr2"]
-
-[sub_resource type="Curve2D" id="Curve2D_47l0p"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, -1050.25, -700.315, 0, 0, 0, 0, 1510.51, -699.765, 0, 0, 0, 0, 1505, 978, 0, 0, 0, 0, -1053.22, 981, 0, 0, 0, 0, -1050.25, -703.331)
-}
-point_count = 5
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_5ym7l")
@@ -26,27 +20,14 @@ texture = ExtResource("6_pevr2")
 stretch_mode = 1
 
 [node name="Player1" parent="." node_paths=PackedStringArray("partner") instance=ExtResource("1_u6hc1")]
-position = Vector2(1310, 1020)
+position = Vector2(1328, 1128)
 id = 1
 partner = NodePath("../Player2")
 
 [node name="Player2" parent="." node_paths=PackedStringArray("partner") instance=ExtResource("1_u6hc1")]
-position = Vector2(1501, 1030)
+position = Vector2(1709, 1140)
 id = 2
 partner = NodePath("../Player1")
-
-[node name="EnemySpawner" type="Path2D" parent="."]
-position = Vector2(1228.72, 833.31)
-scale = Vector2(1.20176, 1.24025)
-curve = SubResource("Curve2D_47l0p")
-
-[node name="SpawnPoint" type="PathFollow2D" parent="EnemySpawner"]
-position = Vector2(-1050.25, -700.315)
-rotation = 0.000214775
-
-[node name="EnemySpawnTimer" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
 
 [node name="Rope" parent="." node_paths=PackedStringArray("player1", "player2") instance=ExtResource("3_yax8e")]
 position = Vector2(202, 236)
@@ -55,11 +36,15 @@ player1 = NodePath("../Player1")
 player2 = NodePath("../Player2")
 
 [node name="UfoPart" parent="." instance=ExtResource("4_3yvjf")]
-position = Vector2(1410, 867)
+position = Vector2(1506, 1010)
 
 [node name="DropPoint" parent="." instance=ExtResource("5_7knir")]
 position = Vector2(1439, 367)
 
-[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
 [connection signal="collected" from="UfoPart" to="." method="_on_ufo_part_collected"]
 [connection signal="entered_drop_point" from="UfoPart" to="." method="_on_ufo_part_entered_drop_point"]
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]

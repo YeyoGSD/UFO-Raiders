@@ -1,18 +1,10 @@
 extends Node2D
 
-@onready var enemy_scene:PackedScene = preload("res://Enemy/enemy.tscn")
-@onready var spawn_point:PathFollow2D = $EnemySpawner/SpawnPoint
+@onready var enemy_path_scene:PackedScene = preload("res://EnemyPath/enemy_path.tscn")
 @onready var rope:Rope = $Rope
 @onready var ufo_part:UfoPart = $UfoPart
 @onready var player1:Player = $Player1
 @onready var player2:Player = $Player2
-
-func _on_enemy_spawn_timer_timeout() -> void:
-	var new_enemy:Enemy = enemy_scene.instantiate()
-	spawn_point.progress_ratio = randf()
-	new_enemy.position = spawn_point.global_position
-	new_enemy.target = get_closest_player(new_enemy.position)
-	add_child(new_enemy)
 
 func get_closest_player(reference_position:Vector2) -> Player:
 	var player1_distance:float = reference_position.distance_squared_to(player1.position)
@@ -33,3 +25,11 @@ func _on_ufo_part_collected() -> void:
 		rope.set_ufo_part(ufo_part)
 		player1.is_tied = true
 		player2.is_tied = true
+		
+func _on_enemy_spawn_timer_timeout() -> void:
+	var players:Array = [player1, player2]
+	for player:Player in players:
+		var path:EnemyPath = enemy_path_scene.instantiate()
+		path.curve = Curve2D.new()
+		add_child(path)
+		path.set_for_player_position(player.global_position)

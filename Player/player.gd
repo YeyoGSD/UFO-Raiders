@@ -19,7 +19,7 @@ func _physics_process(delta:float) -> void:
 		"move_right_{n}".format({"n":id}),
 		"move_up_{n}".format({"n":id}),
 		"move_down_{n}".format({"n":id}))
-		
+
 	if direction:
 		rotation = lerp_angle(rotation, direction.angle() + PI/2, 0.2)
 		global_position += direction * SPEED * delta
