@@ -5,6 +5,7 @@ extends Node2D
 @onready var ufo_part:UfoPart = $UfoPart
 @onready var player1:Player = $Player1
 @onready var player2:Player = $Player2
+@onready var enemy_spawn_timer:Timer = $EnemySpawnTimer
 
 func get_closest_player(reference_position:Vector2) -> Player:
 	var player1_distance:float = reference_position.distance_squared_to(player1.position)
@@ -15,17 +16,22 @@ func get_closest_player(reference_position:Vector2) -> Player:
 		return player2
 
 func _on_ufo_part_entered_drop_point() -> void:
+	Global.level += 1
+	print(Global.level)
 	rope.drop_ufo_part()
 	player1.is_tied = false
 	player2.is_tied = false
+	ufo_part.global_position = Vector2(randi() % 2900 + 100, randi() % 1900 + 100)
 
 func _on_ufo_part_collected() -> void:
-	var players_distance:float = player1.global_position.distance_to(player2.global_position)
-	if rope.ufo_part == null and players_distance < 400: #400 es el valor de max_separation para la pantalla dividida
-		rope.set_ufo_part(ufo_part)
-		player1.is_tied = true
-		player2.is_tied = true
-		
+	if rope.ufo_part == null:
+		var players_distance:float = player1.global_position.distance_to(player2.global_position)
+		if players_distance < 400: #400 es el valor de max_separation para la pantalla dividida
+			rope.set_ufo_part(ufo_part)
+			player1.is_tied = true
+			player2.is_tied = true
+			enemy_spawn_timer.wait_time -= Global.level / 4.0
+
 func _on_enemy_spawn_timer_timeout() -> void:
 	var players:Array = [player1, player2]
 	for player:Player in players:
