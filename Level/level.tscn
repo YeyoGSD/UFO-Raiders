@@ -1,23 +1,42 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3srilwbdd7el"]
+[gd_scene load_steps=9 format=3 uid="uid://b3srilwbdd7el"]
 
 [ext_resource type="Script" path="res://Level/level.gd" id="1_5ym7l"]
 [ext_resource type="PackedScene" uid="uid://yeweddorpr2l" path="res://Player/player.tscn" id="1_u6hc1"]
+[ext_resource type="Texture2D" uid="uid://c3fxhiseohawm" path="res://Level/ocean.jpg" id="2_2y0ei"]
 [ext_resource type="PackedScene" uid="uid://doacohcsamvk1" path="res://Rope/rope.tscn" id="3_yax8e"]
 [ext_resource type="PackedScene" uid="uid://bm0ntlv4hf105" path="res://UFO_Part/ufo_part.tscn" id="4_3yvjf"]
 [ext_resource type="PackedScene" uid="uid://cageq52k0lea8" path="res://Drop_Point/drop_point.tscn" id="5_7knir"]
-[ext_resource type="Texture2D" uid="uid://dk1k0qfbw1mal" path="res://icon.svg" id="6_pevr2"]
+[ext_resource type="PackedScene" uid="uid://coymt4wdxm1nq" path="res://Guide/guide.tscn" id="5_80lpw"]
+[ext_resource type="PackedScene" uid="uid://oftb7jo3nj2h" path="res://limit_clouds/limit_clouds.tscn" id="7_50bxl"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_5ym7l")
 
-[node name="TempBG" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0.321569)
-offset_right = 3000.0
-offset_bottom = 2000.0
+offset_left = -105.0
+offset_top = -121.0
+offset_right = 3128.0
+offset_bottom = 2094.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("6_pevr2")
+texture = ExtResource("2_2y0ei")
 stretch_mode = 1
+
+[node name="DropPoint" parent="." instance=ExtResource("5_7knir")]
+position = Vector2(1500, 700)
+
+[node name="Rope" parent="." node_paths=PackedStringArray("player1", "player2") instance=ExtResource("3_yax8e")]
+position = Vector2(202, 236)
+dampening = 0.95
+player1 = NodePath("../Player1")
+player2 = NodePath("../Player2")
+
+[node name="Guide" parent="." instance=ExtResource("5_80lpw")]
+visible = false
+
+[node name="UfoPart" parent="." instance=ExtResource("4_3yvjf")]
+position = Vector2(1500, 1000)
 
 [node name="Player1" parent="." node_paths=PackedStringArray("partner") instance=ExtResource("1_u6hc1")]
 position = Vector2(1328, 1128)
@@ -29,28 +48,14 @@ position = Vector2(1709, 1140)
 id = 2
 partner = NodePath("../Player1")
 
-[node name="Rope" parent="." node_paths=PackedStringArray("player1", "player2") instance=ExtResource("3_yax8e")]
-position = Vector2(202, 236)
-dampening = 0.95
-player1 = NodePath("../Player1")
-player2 = NodePath("../Player2")
-
-[node name="UfoPart" parent="." instance=ExtResource("4_3yvjf")]
-position = Vector2(1500, 1000)
-
-[node name="DropPoint" parent="." instance=ExtResource("5_7knir")]
-position = Vector2(1500, 700)
-
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 3.0
 autostart = true
 
-[node name="Guide" type="Line2D" parent="."]
-visible = false
-points = PackedVector2Array(1500, 700, 1500, 1000)
-
 [node name="HintTimer" type="Timer" parent="."]
 wait_time = 10.0
+
+[node name="LimitClouds" parent="." instance=ExtResource("7_50bxl")]
 
 [connection signal="collected" from="UfoPart" to="." method="_on_ufo_part_collected"]
 [connection signal="entered_drop_point" from="UfoPart" to="." method="_on_ufo_part_entered_drop_point"]

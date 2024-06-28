@@ -1,16 +1,57 @@
-[gd_scene load_steps=5 format=3 uid="uid://bm0ntlv4hf105"]
+[gd_scene load_steps=14 format=3 uid="uid://bm0ntlv4hf105"]
 
 [ext_resource type="Script" path="res://UFO_Part/ufo_part.gd" id="1_ed0kl"]
+[ext_resource type="Texture2D" uid="uid://4ma5bi0gapah" path="res://UFO_Part/Images/Arm2.png" id="2_2g4rd"]
+[ext_resource type="Texture2D" uid="uid://cvmjf8jvy8ye2" path="res://UFO_Part/Images/cockpit1Grey.png" id="3_lvmc2"]
+[ext_resource type="Texture2D" uid="uid://n6xjilimkmsf" path="res://UFO_Part/Images/cockpit2Grey.png" id="4_gymvg"]
+[ext_resource type="Texture2D" uid="uid://cnjpyjgro6y70" path="res://UFO_Part/Images/cockpit3Grey.png" id="5_gksk2"]
+[ext_resource type="Texture2D" uid="uid://bn46jb8ffl0mx" path="res://UFO_Part/Images/cockpit4Grey.png" id="6_es3vp"]
+[ext_resource type="Texture2D" uid="uid://baamgv63qc4sv" path="res://UFO_Part/Images/cockpit5Grey.png" id="7_evwl8"]
+[ext_resource type="Texture2D" uid="uid://bkko1erep4ouw" path="res://UFO_Part/Images/wing1Grey.png" id="8_rhb31"]
+[ext_resource type="Texture2D" uid="uid://naeotxxccrkk" path="res://UFO_Part/Images/wing2Grey.png" id="9_b3ips"]
+[ext_resource type="Texture2D" uid="uid://beht7iqep8bew" path="res://UFO_Part/Images/wing3Grey.png" id="10_s3ohe"]
+[ext_resource type="Texture2D" uid="uid://drsaxhcug8lp1" path="res://UFO_Part/Images/wing4Grey.png" id="11_r7f2r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gec5a"]
 size = Vector2(16, 14)
 
-[sub_resource type="Gradient" id="Gradient_a7g67"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_tqxv2"]
-gradient = SubResource("Gradient_a7g67")
-width = 16
-height = 16
+[sub_resource type="SpriteFrames" id="SpriteFrames_vibwa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_2g4rd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_lvmc2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gymvg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_gksk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_es3vp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_evwl8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_rhb31")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_b3ips")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_s3ohe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_r7f2r")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="UfoPart" type="Area2D"]
 script = ExtResource("1_ed0kl")
@@ -19,8 +60,10 @@ script = ExtResource("1_ed0kl")
 shape = SubResource("RectangleShape2D_gec5a")
 metadata/_edit_lock_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("GradientTexture2D_tqxv2")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 0, 1)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_vibwa")
 metadata/_edit_lock_ = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://coymt4wdxm1nq"]
+
+[ext_resource type="Texture2D" uid="uid://te42aulto2ws" path="res://Guide/arrow.png" id="1_cijr8"]
+
+[node name="Guide" type="Line2D"]
+modulate = Color(0.603922, 0.290196, 0, 0.682353)
+texture_repeat = 2
+points = PackedVector2Array(1500, 700, 1500, 1000)
+width = 25.0
+texture = ExtResource("1_cijr8")
+texture_mode = 1

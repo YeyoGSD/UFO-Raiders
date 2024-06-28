@@ -1,15 +1,45 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4o1calmsc8xf"]
+[gd_scene load_steps=6 format=3 uid="uid://b4o1calmsc8xf"]
 
 [ext_resource type="Script" path="res://EnemyPath/enemy_path.gd" id="1_agu5n"]
-[ext_resource type="Texture2D" uid="uid://cfgybpmwjl441" path="res://EnemyPath/ship_0005.png" id="2_qggu5"]
+[ext_resource type="Texture2D" uid="uid://bx4v8t5e75tid" path="res://EnemyPath/enemy.png" id="2_84107"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_28i23"]
-size = Vector2(16, 15)
+[sub_resource type="Animation" id="Animation_grr8i"]
+resource_name = "line_blink"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.584314, 0, 0, 0.552941), Color(0.584314, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1i20a"]
+_data = {
+"line_blink": SubResource("Animation_grr8i")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xcxe7"]
+radius = 8.01561
 
 [node name="EnemyPath" type="Path2D"]
 script = ExtResource("1_agu5n")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Line")
+libraries = {
+"": SubResource("AnimationLibrary_1i20a")
+}
+
 [node name="Line" type="Line2D" parent="."]
+modulate = Color(0.584314, 0, 0, 0.552941)
+width = 20.0
 
 [node name="PathFollow" type="PathFollow2D" parent="."]
 rotates = false
@@ -18,12 +48,12 @@ loop = false
 [node name="Enemy" type="Area2D" parent="PathFollow"]
 
 [node name="Sprite" type="Sprite2D" parent="PathFollow/Enemy"]
-texture = ExtResource("2_qggu5")
-metadata/_edit_lock_ = true
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_84107")
 
 [node name="CollisionShape" type="CollisionShape2D" parent="PathFollow/Enemy"]
 position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_28i23")
+shape = SubResource("CircleShape2D_xcxe7")
 metadata/_edit_lock_ = true
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]

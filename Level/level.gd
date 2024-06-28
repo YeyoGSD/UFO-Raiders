@@ -29,7 +29,8 @@ func _on_ufo_part_collected() -> void:
 			rope.set_ufo_part(ufo_part)
 			player1.is_tied = true
 			player2.is_tied = true
-			enemy_spawn_timer.wait_time -= 0.25
+			if Global.level < 6:
+				enemy_spawn_timer.wait_time -= 0.25
 			hint_timer.stop()
 			guide.show()
 

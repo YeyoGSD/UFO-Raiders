@@ -1,20 +1,74 @@
-[gd_scene load_steps=4 format=3 uid="uid://yeweddorpr2l"]
+[gd_scene load_steps=12 format=3 uid="uid://yeweddorpr2l"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_kn64b"]
-[ext_resource type="Texture2D" uid="uid://dqy8wlycm5mfx" path="res://Player/ship_0000.png" id="1_vttih"]
+[ext_resource type="Texture2D" uid="uid://1jkb6ju2rs2l" path="res://Player/player1.png" id="2_67x6d"]
+[ext_resource type="Texture2D" uid="uid://b5kpw5tdncv62" path="res://Player/player2.png" id="3_055r1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ulc0"]
+atlas = ExtResource("2_67x6d")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07vf2"]
+atlas = ExtResource("2_67x6d")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfy8s"]
+atlas = ExtResource("2_67x6d")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5aura"]
+atlas = ExtResource("3_055r1")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_btvs6"]
+atlas = ExtResource("3_055r1")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hw3u"]
+atlas = ExtResource("3_055r1")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ninup"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ulc0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07vf2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfy8s")
+}],
+"loop": true,
+"name": &"1",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5aura")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_btvs6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hw3u")
+}],
+"loop": true,
+"name": &"2",
+"speed": 20.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_voe3a"]
-size = Vector2(15, 20)
+size = Vector2(13, 36)
 
 [node name="Player" type="Area2D"]
 script = ExtResource("1_kn64b")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_vttih")
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ninup")
+animation = &"1"
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 0)
+position = Vector2(-0.5, 2)
 shape = SubResource("RectangleShape2D_voe3a")
-
-[node name="BulletSpawn" type="Marker2D" parent="."]
-position = Vector2(0, -10)
