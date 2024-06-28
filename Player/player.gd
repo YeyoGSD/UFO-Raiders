@@ -30,3 +30,9 @@ func _physics_process(delta:float) -> void:
 func circle_clamp(vector:Vector2, clamp_origin:Vector2, clamp_length:float) -> Vector2:
 	var offset:Vector2 = vector - clamp_origin
 	return clamp_origin + offset.limit_length(clamp_length)
+
+#Cambiar por una animación
+func glow() -> void:
+	sprite.modulate = Color.CHOCOLATE
+	await get_tree().create_timer(3).timeout
+	sprite.modulate = Color(1,1,1,1)

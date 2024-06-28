@@ -36,15 +36,23 @@ player1 = NodePath("../Player1")
 player2 = NodePath("../Player2")
 
 [node name="UfoPart" parent="." instance=ExtResource("4_3yvjf")]
-position = Vector2(1506, 1010)
+position = Vector2(1500, 1000)
 
 [node name="DropPoint" parent="." instance=ExtResource("5_7knir")]
-position = Vector2(1439, 367)
+position = Vector2(1500, 700)
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 3.0
 autostart = true
 
+[node name="Guide" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(1500, 700, 1500, 1000)
+
+[node name="HintTimer" type="Timer" parent="."]
+wait_time = 10.0
+
 [connection signal="collected" from="UfoPart" to="." method="_on_ufo_part_collected"]
 [connection signal="entered_drop_point" from="UfoPart" to="." method="_on_ufo_part_entered_drop_point"]
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
+[connection signal="timeout" from="HintTimer" to="." method="_on_hint_timer_timeout"]
