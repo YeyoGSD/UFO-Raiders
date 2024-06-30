@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://baa1j8puu2dnd"]
+[gd_scene load_steps=12 format=3 uid="uid://baa1j8puu2dnd"]
 
 [ext_resource type="Script" path="res://Main/subviewports.gd" id="1_bfbif"]
 [ext_resource type="PackedScene" uid="uid://b3srilwbdd7el" path="res://Level/level.tscn" id="2_mn10p"]
 [ext_resource type="Shader" path="res://Main/split_screen.gdshader" id="3_t2fq5"]
+[ext_resource type="AudioStream" uid="uid://din8b0vql3gct" path="res://Main/soundtrack.mp3" id="4_adqq6"]
+[ext_resource type="AudioStream" uid="uid://vd5qc4mn6q5s" path="res://Main/wind.mp3" id="5_pt44w"]
+[ext_resource type="AudioStream" uid="uid://nj4re0stg1ih" path="res://Main/motor.mp3" id="6_30w3a"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kv5yg"]
 shader = ExtResource("3_t2fq5")
@@ -15,6 +18,66 @@ shader_parameter/split_line_color = null
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_20t2v"]
 size = Vector2(480, 270)
+
+[sub_resource type="Animation" id="Animation_8x22h"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewports/Transition/ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SubViewports/Transition/ColorRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_r2yg8"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewports/Transition/ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SubViewports/Transition/ColorRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8wxqn"]
+_data = {
+"fade_in": SubResource("Animation_r2yg8"),
+"fade_out": SubResource("Animation_8x22h")
+}
 
 [node name="Main" type="Node"]
 
@@ -46,7 +109,13 @@ render_target_update_mode = 4
 [node name="Level" parent="SubViewports/Container1/Viewport1" instance=ExtResource("2_mn10p")]
 
 [node name="Camera1" type="Camera2D" parent="SubViewports/Container1/Viewport1"]
-texture_filter = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SubViewports/Container1/Viewport1"]
+
+[node name="lives1" type="Label" parent="SubViewports/Container1/Viewport1/CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Vidas: 3"
 
 [node name="Container2" type="SubViewportContainer" parent="SubViewports"]
 layout_mode = 1
@@ -64,10 +133,15 @@ size = Vector2i(640, 480)
 render_target_update_mode = 4
 
 [node name="Camera2" type="Camera2D" parent="SubViewports/Container2/Viewport2"]
-texture_filter = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SubViewports/Container2/Viewport2"]
+
+[node name="lives2" type="Label" parent="SubViewports/Container2/Viewport2/CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Vidas: 3"
 
 [node name="View" type="TextureRect" parent="SubViewports"]
-texture_filter = 1
 material = SubResource("ShaderMaterial_kv5yg")
 layout_mode = 1
 anchors_preset = 15
@@ -77,3 +151,32 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("PlaceholderTexture2D_20t2v")
 expand_mode = 1
+
+[node name="Transition" type="AnimationPlayer" parent="SubViewports"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_8wxqn")
+}
+autoplay = "fade_in"
+
+[node name="ColorRect" type="ColorRect" parent="SubViewports/Transition"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_adqq6")
+autoplay = true
+
+[node name="Wind" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_pt44w")
+autoplay = true
+
+[node name="Motor" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_30w3a")
+volume_db = -15.0
+
+[connection signal="updated_lives" from="SubViewports/Container1/Viewport1/Level" to="SubViewports" method="_on_level_updated_lives"]

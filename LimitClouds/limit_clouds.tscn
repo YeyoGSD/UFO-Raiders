@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3 uid="uid://oftb7jo3nj2h"]
+
+[ext_resource type="Texture2D" uid="uid://b1nmski0lf2uv" path="res://LimitClouds/cloud.png" id="1_aok75"]
+
+[node name="LimitClouds" type="Control"]
+z_index = 100
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -114.0
+offset_top = 1988.0
+offset_right = 3095.0
+offset_bottom = 2278.0
+texture = ExtResource("1_aok75")
+stretch_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = -298.0
+offset_right = 2580.0
+offset_bottom = -8.0
+rotation = 1.5708
+texture = ExtResource("1_aok75")
+stretch_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 3279.0
+offset_right = 6850.0
+offset_bottom = 290.0
+rotation = 3.14159
+texture = ExtResource("1_aok75")
+stretch_mode = 1
+
+[node name="TextureRect4" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 2991.0
+offset_top = 2283.0
+offset_right = 5534.0
+offset_bottom = 2573.0
+rotation = 4.71239
+texture = ExtResource("1_aok75")
+stretch_mode = 1

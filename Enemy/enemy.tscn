@@ -1,0 +1,93 @@
+[gd_scene load_steps=14 format=3 uid="uid://cg74ibad1uhcx"]
+
+[ext_resource type="Texture2D" uid="uid://bx4v8t5e75tid" path="res://Enemy/enemy.png" id="1_c1jv5"]
+[ext_resource type="Script" path="res://Enemy/enemy.gd" id="1_e2cs8"]
+[ext_resource type="Texture2D" uid="uid://q67f1k654seo" path="res://Enemy/explosion.png" id="2_2mlrk"]
+[ext_resource type="AudioStream" uid="uid://dclw6wewukyyj" path="res://Enemy/explosion.mp3" id="4_babtb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oes7c"]
+atlas = ExtResource("2_2mlrk")
+region = Rect2(0, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pg8o"]
+atlas = ExtResource("2_2mlrk")
+region = Rect2(80, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twv0f"]
+atlas = ExtResource("2_2mlrk")
+region = Rect2(160, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dyt2d"]
+atlas = ExtResource("2_2mlrk")
+region = Rect2(240, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7e0m"]
+atlas = ExtResource("2_2mlrk")
+region = Rect2(320, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_so005"]
+atlas = ExtResource("2_2mlrk")
+region = Rect2(400, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_obqq3"]
+atlas = ExtResource("2_2mlrk")
+region = Rect2(480, 0, 80, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h3r74"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_c1jv5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oes7c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pg8o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_twv0f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dyt2d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7e0m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_so005")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_obqq3")
+}],
+"loop": false,
+"name": &"explosion",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xcxe7"]
+radius = 8.01561
+
+[node name="Enemy" type="Area2D"]
+script = ExtResource("1_e2cs8")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_h3r74")
+animation = &"explosion"
+autoplay = "default"
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("CircleShape2D_xcxe7")
+metadata/_edit_lock_ = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_babtb")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -1,6 +1,7 @@
 extends Node2D
 
-@onready var enemy_path_scene:PackedScene = preload("res://EnemyPath/enemy_path.tscn")
+signal updated_lives
+
 @onready var rope:Rope = $Rope
 @onready var ufo_part:UfoPart = $UfoPart
 @onready var player1:Player = $Player1
@@ -9,6 +10,11 @@ extends Node2D
 @onready var guide:Line2D = $Guide
 @onready var hint_timer:Timer = $HintTimer
 
+func _ready() -> void:
+	Global.lives = 3
+	Global.level = 0
+	Global.score = 0
+
 func _process(_delta:float) -> void:
 	guide.remove_point(1)
 	guide.add_point(ufo_part.global_position)
@@ -16,7 +22,11 @@ func _process(_delta:float) -> void:
 func _on_ufo_part_entered_drop_point() -> void:
 	hint_timer.start()
 	guide.hide()
+	Global.score = 10 * Global.level * Global.lives
 	Global.level += 1
+	if Global.lives < 3:
+		Global.lives += 1
+		updated_lives.emit()
 	rope.drop_ufo_part()
 	player1.is_tied = false
 	player2.is_tied = false
@@ -29,15 +39,15 @@ func _on_ufo_part_collected() -> void:
 			rope.set_ufo_part(ufo_part)
 			player1.is_tied = true
 			player2.is_tied = true
-			if Global.level < 6:
-				enemy_spawn_timer.wait_time -= 0.25
+			if Global.level < 4:
+				enemy_spawn_timer.wait_time -= 0.5
 			hint_timer.stop()
 			guide.show()
 
 func _on_enemy_spawn_timer_timeout() -> void:
 	var players:Array = [player1, player2]
 	for player:Player in players:
-		var path:EnemyPath = enemy_path_scene.instantiate()
+		var path:EnemyPath = Global.enemy_path_scene.instantiate()
 		path.curve = Curve2D.new()
 		add_child(path)
 		path.set_for_player_position(player.global_position)
@@ -47,3 +57,7 @@ func _on_hint_timer_timeout() -> void:
 	var player2_distance:float = player2.global_position.distance_squared_to(ufo_part.global_position)
 	var closest_player:Player = player1 if player1_distance < player2_distance else player2
 	closest_player.glow()
+
+func _on_player_hit() -> void:
+	Global.lives -= 1
+	updated_lives.emit()

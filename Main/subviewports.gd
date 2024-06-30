@@ -13,6 +13,10 @@ extends Control
 @onready var view:TextureRect = $View
 @onready var camera1:Camera2D = $Container1/Viewport1/Camera1
 @onready var camera2:Camera2D = $Container2/Viewport2/Camera2
+@onready var lives1:Label = $Container1/Viewport1/CanvasLayer/lives1
+@onready var lives2:Label = $Container2/Viewport2/CanvasLayer/lives2
+@onready var transition:AnimationPlayer = $Transition
+@onready var soundtrack:AudioStreamPlayer = $"../Soundtrack"
 
 var view_shader : ShaderMaterial
 var separation_distance:float = 0
@@ -67,3 +71,10 @@ func _on_size_changed() -> void:
 	main_viewport.size = Global.viewport_size
 	secondary_viewport.size = Global.viewport_size
 	view_shader.set_shader_parameter("viewport_size", Global.viewport_size)
+
+func _on_level_updated_lives() -> void:
+	if Global.lives <= 0:
+		transition.play("fade_out")
+	var new_lives:String = "Vidas: " + str(Global.lives)
+	lives1.text = new_lives
+	lives2.text = new_lives

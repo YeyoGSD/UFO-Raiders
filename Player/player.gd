@@ -1,6 +1,8 @@
 class_name  Player
 extends Area2D
 
+signal hit
+
 @export var id:int
 @export var partner:Player
 
@@ -12,7 +14,7 @@ const SPEED:int = 200
 var direction:Vector2
 var is_tied:bool = false
 
-func _ready():
+func _ready() -> void:
 	sprite.play("{n}".format({"n":id}))
 	#Probablemente hay una mejor manera de manejar distintas skins
 
@@ -39,3 +41,7 @@ func glow() -> void:
 	sprite.modulate = Color.NAVY_BLUE
 	await get_tree().create_timer(3).timeout
 	sprite.modulate = Color(1,1,1,1)
+
+func _on_area_entered(area:Area2D) -> void:
+	if area is Enemy:
+		hit.emit()

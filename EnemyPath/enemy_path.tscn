@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4o1calmsc8xf"]
+[gd_scene load_steps=5 format=3 uid="uid://b4o1calmsc8xf"]
 
 [ext_resource type="Script" path="res://EnemyPath/enemy_path.gd" id="1_agu5n"]
-[ext_resource type="Texture2D" uid="uid://bx4v8t5e75tid" path="res://EnemyPath/enemy.png" id="2_84107"]
+[ext_resource type="PackedScene" uid="uid://cg74ibad1uhcx" path="res://Enemy/enemy.tscn" id="2_i2eha"]
 
 [sub_resource type="Animation" id="Animation_grr8i"]
 resource_name = "line_blink"
@@ -25,9 +25,6 @@ _data = {
 "line_blink": SubResource("Animation_grr8i")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xcxe7"]
-radius = 8.01561
-
 [node name="EnemyPath" type="Path2D"]
 script = ExtResource("1_agu5n")
 
@@ -45,18 +42,10 @@ width = 20.0
 rotates = false
 loop = false
 
-[node name="Enemy" type="Area2D" parent="PathFollow"]
-
-[node name="Sprite" type="Sprite2D" parent="PathFollow/Enemy"]
-scale = Vector2(0.75, 0.75)
-texture = ExtResource("2_84107")
-
-[node name="CollisionShape" type="CollisionShape2D" parent="PathFollow/Enemy"]
-position = Vector2(0, 0.5)
-shape = SubResource("CircleShape2D_xcxe7")
-metadata/_edit_lock_ = true
+[node name="Enemy" parent="PathFollow" instance=ExtResource("2_i2eha")]
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="crashed" from="PathFollow/Enemy" to="." method="_on_enemy_crashed"]
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]

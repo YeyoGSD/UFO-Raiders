@@ -9,7 +9,7 @@ extends Path2D
 
 var speed:int = 0
 
-func _ready():
+func _ready() -> void:
 	animation_player.play("line_blink")
 
 func _process(delta:float) -> void:
@@ -29,6 +29,11 @@ func set_for_player_position(player_position:Vector2) -> void:
 func point_slope_equation(y:int, point:Vector2, m:float=1) -> float:
 	return (y - point.y)/m + point.x
 
-func _on_enemy_spawn_timer_timeout():
+func _on_enemy_spawn_timer_timeout() -> void:
 	speed = 1500
 	animation_player.stop()
+
+func _on_enemy_crashed() -> void:
+	queue_free()
+	if Global.lives <= 0:
+		get_tree().change_scene_to_packed(Global.game_over_scene)

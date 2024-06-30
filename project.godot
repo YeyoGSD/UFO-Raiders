@@ -10,11 +10,12 @@ config_version=5
 
 [application]
 
-config/name="GameJam"
-run/main_scene="res://Main/main.tscn"
+config/name="UFO Raiders"
+config/version="0.1"
+run/main_scene="res://Menu/menu.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 run/max_fps=60
-config/icon="res://icon.svg"
+config/icon="res://icon.jpg"
 
 [autoload]
 
