@@ -1,4 +1,4 @@
-# JuegoZJam
+# UFO Raiders
 Mi primer juego. Realizado para la game jam "ZJam"
 
 El juego base está terminados. Cuando pueda haré una limpia del código, haré cambios que vea convenientes y tal vez le agregue cositas extra.
